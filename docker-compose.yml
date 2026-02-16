@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  db:
+    build: ./DB
+    container_name: game_track_db
+    environment:
+      POSTGRES_DB: game_track_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./DB/init:/docker-entrypoint-initdb.d
+    restart: unless-stopped

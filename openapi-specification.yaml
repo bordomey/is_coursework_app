@@ -1,0 +1,605 @@
+openapi: 3.0.3
+info:
+  title: Game Track API
+  version: 1.0.0
+  description: Task Tracker for Game Development Studio
+
+servers:
+  - url: http://localhost:8080/api
+
+paths:
+
+  /auth/register:
+    post:
+      tags:
+        - Auth
+      summary: Register new user
+      operationId: registerUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User registered
+
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: Login user
+      operationId: loginUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Auth token returned
+
+  /projects:
+    post:
+      tags:
+        - Project Control
+      summary: Create project
+      operationId: createProject
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProjectRequest'
+      responses:
+        '201':
+          description: Project created
+
+    get:
+      tags:
+        - Project Control
+      summary: Get projects
+      operationId: getProjects
+      responses:
+        '200':
+          description: List of projects
+  /projects/{projectId}:
+    get:
+      tags:
+        - Project Control
+      summary: Get project
+      operationId: getProject
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Project details
+
+    put:
+      tags:
+        - Project Control
+      summary: Update project
+      operationId: updateProject
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProjectRequest'
+      responses:
+        '200':
+          description: Project updated
+
+    delete:
+      tags:
+        - Project Control
+      summary: Archive project
+      operationId: archiveProject
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '204':
+          description: Project archived
+  /projects/{projectId}/members:
+    post:
+      tags:
+        - Project Control
+      summary: Add member to project
+      operationId: addProjectMember
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMemberRequest'
+      responses:
+        '200':
+          description: Member added
+
+  /projects/{projectId}/sprints:
+    post:
+      tags:
+        - Project Control
+      summary: Create sprint
+      operationId: createSprint
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSprintRequest'
+      responses:
+        '201':
+          description: Sprint created
+
+
+
+    /tasks:
+    get:
+      tags:
+        - Task Control
+      summary: Get tasks
+      operationId: getTasks
+      responses:
+        '200':
+          description: List of tasks
+  /tasks/{taskId}:
+    get:
+      tags:
+        - Task Control
+      summary: Get task
+      operationId: getTask
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '200':
+          description: Task details
+
+    put:
+      tags:
+        - Task Control
+      summary: Update task
+      operationId: updateTask
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateTaskRequest'
+      responses:
+        '200':
+          description: Task updated
+
+    delete:
+      tags:
+        - Task Control
+      summary: Delete task
+      operationId: deleteTask
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '204':
+          description: Task deleted
+  /tasks/{taskId}/assignee:
+    post:
+      tags:
+        - Task Control
+      summary: Assign task
+      operationId: assignTask
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignTaskRequest'
+      responses:
+        '200':
+          description: Task assigned
+    delete:
+      tags:
+        - Task Control
+      summary: Remove assignee
+      operationId: removeAssignee
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '204':
+          description: Assignee removed
+  /tasks/{taskId}/comments:
+    get:
+      tags:
+        - Task Control
+      summary: Get task comments
+      operationId: getComments
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      responses:
+        '200':
+          description: List of comments
+
+  /tasks/{taskId}/status:
+    put:
+      tags:
+        - Task Control
+      summary: Change task status
+      operationId: changeTaskStatus
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangeStatusRequest'
+      responses:
+        '200':
+          description: Status updated
+
+  /projects/{projectId}/kanban:
+    get:
+      tags:
+        - Project Control
+      summary: Get Kanban board
+      operationId: getKanbanBoard
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Kanban data
+
+  /projects/{projectId}/report:
+    get:
+      tags:
+        - Project Control
+      summary: Get project report
+      operationId: getProjectReport
+      parameters:
+        - $ref: '#/components/parameters/ProjectId'
+      responses:
+        '200':
+          description: Progress report
+  /users:
+    get:
+      tags:
+        - User Control
+      summary: Get all users
+      operationId: getUsers
+      responses:
+        '200':
+          description: List of users
+
+  /users/{userId}:
+    get:
+      tags:
+        - User Control
+      summary: Get user by id
+      operationId: getUser
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: User data
+
+    put:
+      tags:
+        - User Control
+      summary: Update user
+      operationId: updateUser
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: User updated
+
+    delete:
+      tags:
+        - User Control
+      summary: Delete user
+      operationId: deleteUser
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '204':
+          description: User deleted
+  /roles:
+    get:
+      tags:
+        - User Control
+      summary: Get all roles
+      operationId: getRoles
+      responses:
+        '200':
+          description: List of roles
+
+  /users/{userId}/roles:
+    get:
+      tags:
+        - User Control
+      summary: Get user roles
+      operationId: getUserRoles
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      responses:
+        '200':
+          description: List of user roles
+    post:
+      tags:
+        - User Control
+      summary: Assign role to user
+      operationId: assignRole
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignRoleRequest'
+      responses:
+        '200':
+          description: Role assigned
+
+  /sprints/{sprintId}:
+    get:
+      tags:
+        - Sprint Control
+      summary: Get sprint
+      operationId: getSprint
+      parameters:
+        - $ref: '#/components/parameters/SprintId'
+      responses:
+        '200':
+          description: Sprint details
+
+    put:
+      tags:
+        - Sprint Control
+      summary: Update sprint
+      operationId: updateSprint
+      parameters:
+        - $ref: '#/components/parameters/SprintId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateSprintRequest'
+      responses:
+        '200':
+          description: Sprint updated
+
+    delete:
+      tags:
+        - Sprint Control
+      summary: Delete sprint
+      operationId: deleteSprint
+      parameters:
+        - $ref: '#/components/parameters/SprintId'
+      responses:
+        '204':
+          description: Sprint deleted
+  
+  /comments/{commentId}:
+    put:
+      tags:
+        - Comment Control
+      summary: Update comment
+      operationId: updateComment
+      parameters:
+        - $ref: '#/components/parameters/CommentId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateCommentRequest'
+      responses:
+        '200':
+          description: Comment updated
+
+    delete:
+      tags:
+        - Comment Control
+      summary: Delete comment
+      operationId: deleteComment
+      parameters:
+        - $ref: '#/components/parameters/CommentId'
+      responses:
+        '204':
+          description: Comment deleted
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    ProjectId:
+      name: projectId
+      in: path
+      required: true
+      schema:
+        type: integer
+
+    TaskId:
+      name: taskId
+      in: path
+      required: true
+      schema:
+        type: integer
+    UserId:
+      name: userId
+      in: path
+      required: true
+      schema:
+        type: integer
+
+    SprintId:
+      name: sprintId
+      in: path
+      required: true
+      schema:
+        type: integer
+
+    CommentId:
+      name: commentId
+      in: path
+      required: true
+      schema:
+        type: integer
+
+  schemas:
+    UpdateUserRequest:
+      type: object
+      properties:
+        fullName:
+          type: string
+    AssignRoleRequest:
+      type: object
+      properties:
+        roleId:
+          type: integer
+    UpdateProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        isArchived:
+          type: boolean
+    UpdateSprintRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+    UpdateTaskRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        priorityId:
+          type: integer
+        sprintId:
+          type: integer
+    UpdateCommentRequest:
+      type: object
+      properties:
+        content:
+          type: string
+
+    RegisterRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        fullName:
+          type: string
+        password:
+          type: string
+
+    LoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+
+    CreateProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+
+    AddMemberRequest:
+      type: object
+      properties:
+        userId:
+          type: integer
+
+    CreateSprintRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        startDate:
+          type: string
+          format: date
+        endDate:
+          type: string
+          format: date
+
+    CreateTaskRequest:
+      type: object
+      properties:
+        projectId:
+          type: integer
+        sprintId:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        priorityId:
+          type: integer
+
+    AssignTaskRequest:
+      type: object
+      properties:
+        userId:
+          type: integer
+
+    ChangeStatusRequest:
+      type: object
+      properties:
+        statusId:
+          type: integer
+
+    AddCommentRequest:
+      type: object
+      properties:
+        userId:
+          type: integer
+        content:
+          type: string
+tags:
+  - name: Auth
+    description: Authentication and registration
+
+  - name: User Control
+    description: User management
+
+  - name: Project Control
+    description: Project lifecycle management
+
+  - name: Sprint Control
+    description: Sprint management
+
+  - name: Task Control
+    description: Task lifecycle management
+
+  - name: Comment Control
+    description: Task comments
+
