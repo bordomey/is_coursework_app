@@ -38,21 +38,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
       setToken(storedToken);
-      // Here you would typically have an endpoint to verify and get user data from token
-      // For now, we'll just set a placeholder - in a real app you'd validate the token
     }
   }, []);
 
   const login = async (email: string, password: string) => {
     try {
       const response = await authService.login({ email, password });
-      const { token } = response.data; // Assuming the API returns token in this format
-      
+      const token = response.data; 
+      console.log('Token:', token);
+      console.log('User data:', response.data);
       localStorage.setItem('token', token);
       setToken(token);
-      
-      // In a real app, you would decode the token or make another call to get user info
-      // For now, we'll create a placeholder user
+ 
       const userData = { id: 1, email, fullName: 'Current User' };
       setUser(userData);
     } catch (error: any) {
@@ -64,7 +61,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const register = async (email: string, fullName: string, password: string) => {
     try {
       const response = await authService.register({ email, fullName, password });
-      // Registration usually requires login after, so you might redirect to login
       return response;
     } catch (error: any) {
       console.error('Registration failed:', error);

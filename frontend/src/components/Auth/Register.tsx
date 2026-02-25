@@ -21,7 +21,6 @@ const Register: React.FC = () => {
 
     try {
       await register(email, fullName, password);
-      // Registration successful - redirect to login
       navigate('/login');
     } catch (err: any) {
       setError(err.message || 'Registration failed');

@@ -138,7 +138,25 @@ paths:
 
 
 
-    /tasks:
+  /tasks:
+    post:
+      tags:
+        - Task Control
+      summary: Create task
+      operationId: createTask
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTaskRequest'
+      responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskDto'
+
     get:
       tags:
         - Task Control
@@ -211,6 +229,22 @@ paths:
       responses:
         '204':
           description: Assignee removed
+  /tasks/{taskId}/sync:
+    post:
+      tags:
+        - Task Control
+      summary: Sync task
+      operationId: syncTask
+      parameters:
+        - $ref: '#/components/parameters/TaskId'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignTaskRequest'
+      responses:
+        '200':
+          description: Task assigned
   /tasks/{taskId}/comments:
     get:
       tags:
@@ -584,6 +618,33 @@ components:
           type: integer
         content:
           type: string
+    TaskDto:
+      type: object
+      properties:
+        id:
+          type: integer
+        projectId:
+          type: integer
+        sprintId:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+        priority:
+          type: string
+        assigneeId:
+          type: integer
+        assigneeName:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
 tags:
   - name: Auth
     description: Authentication and registration

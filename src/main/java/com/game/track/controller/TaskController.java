@@ -5,7 +5,10 @@ import com.game.track.dto.ChangeStatusRequest;
 import com.game.track.dto.CreateTaskRequest;
 import com.game.track.dto.TaskDto;
 import com.game.track.dto.UpdateTaskRequest;
+import com.game.track.repository.TaskPriorityRepository;
+import com.game.track.entity.TaskPriority;
 import com.game.track.service.TaskService;
+import com.game.track.service.YandexTrackerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +30,24 @@ public class TaskController {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private TaskPriorityRepository taskPriorityRepository;
+
+    @Autowired
+    private YandexTrackerService yandexTrackerService;
+
+    @PostMapping
+    public ResponseEntity<TaskDto> createTask(@Valid @RequestBody CreateTaskRequest request) {
+        TaskDto createdTask = taskService.createTask(request);
+        return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/priorities")
+    public ResponseEntity<List<TaskPriority>> getPriorities() {
+        List<TaskPriority> priorities = taskPriorityRepository.findAll();
+        return new ResponseEntity<>(priorities, HttpStatus.OK);
+    }
 
     @GetMapping
     public ResponseEntity<List<TaskDto>> getTasks() {
@@ -68,5 +89,19 @@ public class TaskController {
     public ResponseEntity<Void> changeTaskStatus(@PathVariable Integer taskId, @Valid @RequestBody ChangeStatusRequest request) {
         taskService.changeTaskStatus(taskId, request);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/{taskId}/sync")
+    public ResponseEntity<String> syncTaskToYandexTracker(@PathVariable Integer taskId) {
+        try {
+            boolean success = yandexTrackerService.syncTaskToYandexTracker(taskService.getTaskEntityById(taskId));
+            if (success) {
+                return new ResponseEntity<>("Task synced to Yandex Tracker successfully", HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>("Task sync to Yandex Tracker failed", HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } catch (Exception e) {
+            return new ResponseEntity<>("Error syncing task to Yandex Tracker: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

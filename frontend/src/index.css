@@ -9,6 +9,8 @@
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
+  transition: all 0.2s ease;
+  scroll-behavior: smooth;
 
   color-scheme: light dark;
   color: var(--font-primary);

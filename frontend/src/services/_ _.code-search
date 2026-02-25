@@ -1,0 +1,176 @@
+# Query: // .*$
+# Flags: RegExp
+
+134 results - 51 files
+
+frontend\README.md:
+
+frontend\vite.config.ts:
+
+frontend\src\components\Auth\Login.tsx:
+  16:       navigate('/dashboard'); 
+
+frontend\src\components\Auth\Register.tsx:
+
+frontend\src\contexts\AuthContext.tsx:
+  47:       const token = response.data; 
+frontend\src\pages\Dashboard.tsx:
+  5: import '../App.css'; 
+
+frontend\src\pages\Kanban.tsx:
+  37:   id: number;     
+  38:   name: string;   
+
+frontend\src\pages\Projects.tsx:
+  48:       fetchProjects(); 
+  57:       fetchProjects(); 
+
+frontend\src\pages\TaskDetail.tsx:
+
+  122:       const currentUser = users[0]; 
+frontend\src\pages\Tasks.tsx:
+   49:     priorityId: 1, 
+   91:         sprintId: newTask.sprintId 
+  101:       fetchData(); 
+  111:         fetchData(); 
+  130:       fetchData(); 
+  139:       fetchData(); 
+
+frontend\src\services\ApiService.ts:
+  164: 
+
+src\main\java\com\game\track\config\SecurityConfig.java:
+  47:         http.cors(cors -> {}); 
+  52:                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow preflight requests
+  53:                         .anyRequest().fullyAuthenticated() 
+  66:         configuration.setAllowedOriginPatterns(List.of("*")); 
+
+src\main\java\com\game\track\dto\AddCommentRequest.java:
+
+
+src\main\java\com\game\track\dto\AddMemberRequest.java:
+   9:     
+
+src\main\java\com\game\track\dto\AssignRoleRequest.java:
+   9:     
+src\main\java\com\game\track\dto\AssignTaskRequest.java:
+   9:   
+
+src\main\java\com\game\track\dto\ChangeStatusRequest.java:
+   9:    
+src\main\java\com\game\track\dto\CommentDto.java:
+  13:     
+
+src\main\java\com\game\track\dto\CreateProjectRequest.java:
+  14:    
+
+src\main\java\com\game\track\dto\CreateSprintRequest.java:
+  20:  
+src\main\java\com\game\track\dto\CreateTaskRequest.java:
+  23:    
+
+src\main\java\com\game\track\dto\KanbanDto.java:
+   8:     
+  15:     
+
+src\main\java\com\game\track\dto\KanbanTaskDto.java:
+   9:     
+
+src\main\java\com\game\track\dto\LoginRequest.java:
+  14:    
+
+src\main\java\com\game\track\dto\ProjectDto.java:
+  12:
+
+src\main\java\com\game\track\dto\RegisterRequest.java:
+
+src\main\java\com\game\track\dto\RoleDto.java:
+
+src\main\java\com\game\track\dto\SprintDto.java:
+
+src\main\java\com\game\track\dto\TaskDto.java:
+
+src\main\java\com\game\track\dto\UpdateCommentRequest.java:
+   9:     // Constructors
+  16:     // Getters and Setters
+
+src\main\java\com\game\track\dto\UpdateProjectRequest.java:
+  14:     // Constructors
+  23:     // Getters and Setters
+
+src\main\java\com\game\track\dto\UpdateSprintRequest.java:
+  15:     // Constructors
+  24:     // Getters and Setters
+
+src\main\java\com\game\track\dto\UpdateTaskRequest.java:
+  16:     // Constructors
+  26:     // Getters and Setters
+
+src\main\java\com\game\track\dto\UpdateUserRequest.java:
+   9:     // Constructors
+  16:     // Getters and Setters
+
+src\main\java\com\game\track\dto\UserDto.java:
+  11:     // Constructors
+  21:     // Getters and Setters
+
+src\main\java\com\game\track\entity\AuditLog.java:
+  26:     // Constructors
+  36:     // Getters and Setters
+
+src\main\java\com\game\track\entity\Comment.java:
+  27:     // Constructors
+  37:     // Getters and Setters
+
+src\main\java\com\game\track\entity\Project.java:
+  25:     // Constructors
+  34:     // Getters and Setters
+
+src\main\java\com\game\track\entity\Role.java:
+  15:     // Constructors
+  22:     // Getters and Setters
+
+src\main\java\com\game\track\entity\Sprint.java:
+  26:     // Constructors
+  36:     // Getters and Setters
+
+src\main\java\com\game\track\entity\Task.java:
+  41:     // Constructors
+  54:     // Getters and Setters
+
+src\main\java\com\game\track\entity\TaskPriority.java:
+  15:     // Constructors
+  22:     // Getters and Setters
+
+src\main\java\com\game\track\entity\TaskStatus.java:
+  15:     // Constructors
+  22:     // Getters and Setters
+
+src\main\java\com\game\track\entity\User.java:
+  25:     // Constructors
+  35:     // Getters and Setters
+
+src\main\java\com\game\track\repository\CustomProjectRepositoryImpl.java:
+  32:                 (Integer) row[0],  // task_id
+  33:                 (String) row[1],   // title
+  34:                 (String) row[2],   // status
+  35:                 (String) row[3]    // priority
+
+src\main\java\com\game\track\security\UserDetailsServiceImpl.java:
+
+
+src\main\java\com\game\track\service\AuthService.java:
+
+
+src\main\java\com\game\track\service\ProjectControlService.java:
+  25:         // Validate project exists
+
+src\main\java\com\game\track\service\TaskService.java:
+
+  171:                 null, 
+  172:                 null, 
+
+src\main\java\com\game\track\service\UserService.java:
+
+
+src\main\java\com\game\track\service\YandexTrackerService.java:

@@ -28,6 +28,7 @@ com\game\track\entity\User.class
 com\game\track\controller\ProjectController.class
 com\game\track\dto\UserDto.class
 com\game\track\entity\Comment.class
+com\game\track\service\YandexTrackerService.class
 com\game\track\repository\CustomProjectRepository.class
 com\game\track\entity\Role.class
 com\game\track\security\UserDetailsServiceImpl.class

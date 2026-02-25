@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { taskService, projectService, userService } from '../services/ApiService';
+import { Link } from 'react-router-dom';
 import './PageStyles.css';
 
 interface User {
@@ -27,6 +28,11 @@ interface Task {
   updatedAt: string;
 }
 
+interface Priority {
+  id: number;
+  name: string;
+}
+
 const Tasks: React.FC = () => {
   const { token } = useAuth();
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -35,11 +41,12 @@ const Tasks: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const [priorities, setPriorities] = useState<Priority[]>([]);
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
     projectId: 0,
-    priorityId: 1, // Default priority
+    priorityId: 1,
     sprintId: null as number | null
   });
 
@@ -52,16 +59,20 @@ const Tasks: React.FC = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      // Fetch tasks, projects, and users in parallel
-      const [tasksRes, projectsRes, usersRes] = await Promise.all([
+      const [tasksRes, projectsRes, usersRes, prioritiesRes] = await Promise.all([
         taskService.getAll(),
         projectService.getAll(),
-        userService.getAll()
+        userService.getAll(),
+        taskService.getPriorities()
       ]);
       
       setTasks(tasksRes.data);
       setProjects(projectsRes.data);
       setUsers(usersRes.data);
+      setPriorities(prioritiesRes.data);
+      if (prioritiesRes.data && prioritiesRes.data.length > 0) {
+        setNewTask(prev => ({ ...prev, priorityId: prioritiesRes.data[0].id }));
+      }
       setError('');
     } catch (err: any) {
       setError(err.message || 'Failed to fetch data');
@@ -75,7 +86,7 @@ const Tasks: React.FC = () => {
     try {
       await taskService.create({
         ...newTask,
-        sprintId: newTask.sprintId || 0 // Convert null to 0 for backend compatibility
+        sprintId: newTask.sprintId 
       });
       setNewTask({
         title: '',
@@ -85,7 +96,7 @@ const Tasks: React.FC = () => {
         sprintId: null
       });
       setShowForm(false);
-      fetchData(); // Refresh the list
+      fetchData(); 
     } catch (err: any) {
       setError(err.message || 'Failed to create task');
     }
@@ -95,17 +106,26 @@ const Tasks: React.FC = () => {
     if (window.confirm('Are you sure you want to delete this task?')) {
       try {
         await taskService.delete(taskId);
-        fetchData(); // Refresh the list
+        fetchData(); 
       } catch (err: any) {
         setError(err.message || 'Failed to delete task');
       }
     }
   };
 
+  const handleSyncToYandexTracker = async (taskId: number) => {
+    try {
+      await taskService.syncToYandexTracker(taskId);
+      alert('Task synced to Yandex Tracker successfully!');
+    } catch (err: any) {
+      setError(err.message || 'Failed to sync task to Yandex Tracker');
+    }
+  };
+
   const handleAssignTask = async (taskId: number, userId: number) => {
     try {
       await taskService.assign(taskId, userId);
-      fetchData(); // Refresh the list
+      fetchData(); 
     } catch (err: any) {
       setError(err.message || 'Failed to assign task');
     }
@@ -114,13 +134,18 @@ const Tasks: React.FC = () => {
   const handleChangeStatus = async (taskId: number, statusId: number) => {
     try {
       await taskService.changeStatus(taskId, statusId);
-      fetchData(); // Refresh the list
+      fetchData(); 
     } catch (err: any) {
       setError(err.message || 'Failed to change task status');
     }
   };
 
-  if (loading) return <div className="loading">Loading tasks...</div>;
+  if (loading) return (
+    <div className="loading">
+      <div className="spinner"></div>
+      Loading tasks...
+    </div>
+  );
   if (error) return <div className="error">Error: {error}</div>;
 
   return (
@@ -176,9 +201,9 @@ const Tasks: React.FC = () => {
                 value={newTask.priorityId}
                 onChange={(e) => setNewTask({ ...newTask, priorityId: parseInt(e.target.value) })}
               >
-                <option value={1}>Low</option>
-                <option value={2}>Medium</option>
-                <option value={3}>High</option>
+                {priorities.map(priority => (
+                  <option key={priority.id} value={priority.id}>{priority.name}</option>
+                ))}
               </select>
             </div>
           </div>
@@ -190,7 +215,9 @@ const Tasks: React.FC = () => {
         {tasks.map((task) => (
           <div key={task.id} className="task-card">
             <div className="task-info">
-              <div className="task-title">{task.title}</div>
+              <div className="task-title">
+                <Link to={`/task/${task.id}`} className="task-link">{task.title}</Link>
+              </div>
               <div className="task-description">{task.description}</div>
               <div className="task-meta">
                 <span>Project: {projects.find(p => p.id === task.projectId)?.name || 'N/A'}</span>
@@ -211,6 +238,12 @@ const Tasks: React.FC = () => {
                 className="btn-secondary"
               >
                 Change Status
+              </button>
+              <button 
+                onClick={() => handleSyncToYandexTracker(task.id)}
+                className="btn-primary"
+              >
+                Sync to Yandex
               </button>
               <button 
                 onClick={() => handleDeleteTask(task.id)}

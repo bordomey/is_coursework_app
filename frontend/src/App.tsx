@@ -8,6 +8,7 @@ import Dashboard from './pages/Dashboard';
 import Projects from './pages/Projects';
 import Tasks from './pages/Tasks';
 import Kanban from './pages/Kanban';
+import TaskDetail from './pages/TaskDetail';
 import './App.css';
 import './components/Auth/auth.css';
 
@@ -25,6 +26,7 @@ function App() {
             <Route path="project/:projectId" element={<Kanban />} />
             <Route path="tasks" element={<Tasks />} />
             <Route path="kanban/:projectId" element={<Kanban />} />
+            <Route path="task/:taskId" element={<TaskDetail />} />
           </Route>
         </Routes>
       </BrowserRouter>

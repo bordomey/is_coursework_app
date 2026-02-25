@@ -2,7 +2,6 @@ import axios, { type AxiosResponse } from 'axios';
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
-// Create axios instance with default configuration
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
@@ -11,7 +10,6 @@ const apiClient = axios.create({
   },
 });
 
-// Request interceptor to add auth token
 apiClient.interceptors.request.use(
   (config: any) => {
     const token = localStorage.getItem('token');
@@ -25,12 +23,10 @@ apiClient.interceptors.request.use(
   }
 );
 
-// Response interceptor to handle errors
 apiClient.interceptors.response.use(
   (response: any) => response,
   (error: any) => {
     if (error.response?.status === 401) {
-      // Clear token and redirect to login if unauthorized
       localStorage.removeItem('token');
       window.location.href = '/login';
     }
@@ -38,7 +34,6 @@ apiClient.interceptors.response.use(
   }
 );
 
-// AUTHENTICATION
 export const authService = {
   register: (userData: { email: string; fullName: string; password: string }): Promise<AxiosResponse> => {
     return apiClient.post('/auth/register', userData);
@@ -48,8 +43,6 @@ export const authService = {
     return apiClient.post('/auth/login', credentials);
   },
 };
-
-// PROJECTS
 export const projectService = {
   getAll: (): Promise<AxiosResponse> => {
     return apiClient.get('/projects');
@@ -84,7 +77,6 @@ export const projectService = {
   },
 };
 
-// TASKS
 export const taskService = {
   getAll: (): Promise<AxiosResponse> => {
     return apiClient.get('/tasks');
@@ -94,7 +86,7 @@ export const taskService = {
     return apiClient.get(`/tasks/${taskId}`);
   },
 
-  create: (taskData: { projectId: number; sprintId: number; title: string; description: string; priorityId: number }): Promise<AxiosResponse> => {
+  create: (taskData: { projectId: number; sprintId: number | null; title: string; description: string; priorityId: number }): Promise<AxiosResponse> => {
     return apiClient.post('/tasks', taskData);
   },
 
@@ -121,9 +113,28 @@ export const taskService = {
   getComments: (taskId: number): Promise<AxiosResponse> => {
     return apiClient.get(`/tasks/${taskId}/comments`);
   },
+
+  addComment: (taskId: number, commentData: { userId: number; content: string }): Promise<AxiosResponse> => {
+    return apiClient.post(`/tasks/${taskId}/comments`, commentData);
+  },
+
+  updateComment: (taskId: number, commentId: number, commentData: { content: string }): Promise<AxiosResponse> => {
+    return apiClient.put(`/tasks/${taskId}/comments/${commentId}`, commentData);
+  },
+
+  deleteComment: (taskId: number, commentId: number): Promise<AxiosResponse> => {
+    return apiClient.delete(`/tasks/${taskId}/comments/${commentId}`);
+  },
+
+  getPriorities: (): Promise<AxiosResponse> => {
+    return apiClient.get('/tasks/priorities');
+  },
+
+  syncToYandexTracker: (taskId: number): Promise<AxiosResponse> => {
+    return apiClient.post(`/tasks/${taskId}/sync`);
+  },
 };
 
-// USERS
 export const userService = {
   getAll: (): Promise<AxiosResponse> => {
     return apiClient.get('/users');
@@ -150,14 +161,12 @@ export const userService = {
   },
 };
 
-// ROLES
 export const roleService = {
   getAll: (): Promise<AxiosResponse> => {
     return apiClient.get('/roles');
   },
 };
 
-// SPRINTS
 export const sprintService = {
   getById: (sprintId: number): Promise<AxiosResponse> => {
     return apiClient.get(`/sprints/${sprintId}`);

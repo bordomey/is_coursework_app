@@ -1,0 +1,125 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+/dist/
+/build/
+/out/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Environment variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Coverage directory used by tools like istanbul
+coverage/
+.nyc_output
+
+# TypeScript build output
+*.tsbuildinfo
+dist/
+out/
+
+# Backend build artifacts
+target/
+*.jar
+*.war
+*.ear
+
+# Database
+*.db
+*.db-journal
+
+# Local development
+local.properties
+config/local.*
+
+# Sensitive files
+secrets/
+secret/
+private/
+
+# IDE specific
+*.iml
+*.ipr
+*.iws
+*.orig
+
+# Frontend
+npm/
+.cache/
+.pnp/
+.pnp.js
+
+# Backend
+.mvn/wrapper/
+bin/
+*.pid
+*.seed
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.sock
+
+# Environment specific
+.env.local
+.env.*.local
+!.env.example
+
+# Java compiled classes
+*.class
+**/target/
+
+# Maven
+.mvn/
+mvnw
+mvnw.cmd
+
+# PostgreSQL
+*.dump
+
+# Docker
+.dockerenv
+.dockerinit
+
+# Temporary files
+tmp/
+temp/
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

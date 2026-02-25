@@ -8,7 +8,8 @@ public class TaskDto {
     private Integer sprintId;
     private String title;
     private String description;
-    private String status;
+    private String status;  
+    private Integer statusID;
     private String priority;
     private Integer assigneeId;
     private String assigneeName;
@@ -19,6 +20,7 @@ public class TaskDto {
     public TaskDto() {}
 
     public TaskDto(Integer id, Integer projectId, Integer sprintId, String title, String description, 
+                   Integer statusID, 
                    String status, String priority, Integer assigneeId, String assigneeName, 
                    LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.id = id;
@@ -27,6 +29,7 @@ public class TaskDto {
         this.title = title;
         this.description = description;
         this.status = status;
+        this.statusID = statusID;
         this.priority = priority;
         this.assigneeId = assigneeId;
         this.assigneeName = assigneeName;
@@ -77,6 +80,12 @@ public class TaskDto {
 
     public String getStatus() {
         return status;
+    }
+    public Integer getStatusID() {
+        return statusID;
+    }
+    public void setStatusID(Integer statusID) {
+        this.statusID = statusID;
     }
 
     public void setStatus(String status) {

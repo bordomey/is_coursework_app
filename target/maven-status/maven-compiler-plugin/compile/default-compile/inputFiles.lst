@@ -24,6 +24,7 @@ C:\study\IS\Course\step3\src\main\java\com\game\track\repository\TaskPriorityRep
 C:\study\IS\Course\step3\src\main\java\com\game\track\service\UserService.java
 C:\study\IS\Course\step3\src\main\java\com\game\track\dto\UpdateCommentRequest.java
 C:\study\IS\Course\step3\src\main\java\com\game\track\entity\Project.java
+C:\study\IS\Course\step3\src\main\java\com\game\track\service\YandexTrackerService.java
 C:\study\IS\Course\step3\src\main\java\com\game\track\repository\SprintRepository.java
 C:\study\IS\Course\step3\src\main\java\com\game\track\repository\ProjectRepository.java
 C:\study\IS\Course\step3\src\main\java\com\game\track\dto\UpdateProjectRequest.java

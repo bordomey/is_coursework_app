@@ -60,7 +60,6 @@ public class TaskService {
         TaskPriority priority = taskPriorityRepository.findById(request.getPriorityId())
                 .orElseThrow(() -> new ResourceNotFoundException("Task priority not found with id: " + request.getPriorityId()));
 
-        // Assuming default status is 'To Do'
         TaskStatus status = taskStatusRepository.findByName("To Do")
                 .orElseThrow(() -> new ResourceNotFoundException("Task status 'To Do' not found"));
 
@@ -73,6 +72,11 @@ public class TaskService {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + taskId));
         return convertToDto(task);
+    }
+
+    public Task getTaskEntityById(Integer taskId) {
+        return taskRepository.findById(taskId)
+                .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + taskId));
     }
 
     public List<TaskDto> getAllTasks() {
@@ -127,8 +131,6 @@ public class TaskService {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + request.getUserId()));
 
-        // Here we would typically add the assignment to the task_assignees table
-        // For now, we'll just update the task with the assignee info if needed
     }
 
     public void changeTaskStatus(Integer taskId, ChangeStatusRequest request) {
@@ -146,8 +148,6 @@ public class TaskService {
         Task task = taskRepository.findById(taskId)
                 .orElseThrow(() -> new ResourceNotFoundException("Task not found with id: " + taskId));
 
-        // Here we would typically remove the assignment from the task_assignees table
-        // For now, we'll just update the task with null assignee if needed
     }
 
     private TaskDto convertToDto(Task task) {
@@ -160,10 +160,11 @@ public class TaskService {
                 task.getSprint() != null ? task.getSprint().getId() : null,
                 task.getTitle(),
                 task.getDescription(),
+                task.getStatus().getId(),
                 statusName,
                 priorityName,
-                null, // assigneeId - would need to join with task_assignees table
-                null, // assigneeName - would need to join with task_assignees table
+                null, 
+                null, 
                 task.getCreatedAt(),
                 task.getUpdatedAt()
         );

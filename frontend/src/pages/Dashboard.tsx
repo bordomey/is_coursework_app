@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import './PageStyles.css';
+import '../App.css'; 
 
 const Dashboard: React.FC = () => {
   const { user } = useAuth();
@@ -34,7 +35,10 @@ const Dashboard: React.FC = () => {
         
         <div className="recent-activity">
           <h3>Recent Activity</h3>
-          <p>No recent activity to show.</p>
+          <div className="loading">
+            <div className="spinner"></div>
+            Coming soon...
+          </div>
         </div>
       </div>
     </div>

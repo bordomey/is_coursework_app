@@ -25,12 +25,12 @@ public class UserService {
     private PasswordEncoder passwordEncoder;
 
     public UserDto registerUser(RegisterRequest request) {
-        // Check if user already exists
+
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new RuntimeException("User with email " + request.getEmail() + " already exists");
         }
 
-        // Encode password and create user
+    
         String encodedPassword = passwordEncoder.encode(request.getPassword());
         User user = new User(request.getEmail(), request.getFullName(), encodedPassword);
         

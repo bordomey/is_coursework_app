@@ -45,7 +45,7 @@ const Projects: React.FC = () => {
       await projectService.create(newProject);
       setNewProject({ name: '', description: '' });
       setShowForm(false);
-      fetchProjects(); // Refresh the list
+      fetchProjects(); 
     } catch (err: any) {
       setError(err.message || 'Failed to create project');
     }
@@ -54,13 +54,18 @@ const Projects: React.FC = () => {
   const handleArchiveProject = async (projectId: number) => {
     try {
       await projectService.archive(projectId);
-      fetchProjects(); // Refresh the list
+      fetchProjects(); 
     } catch (err: any) {
       setError(err.message || 'Failed to archive project');
     }
   };
 
-  if (loading) return <div className="loading">Loading projects...</div>;
+  if (loading) return (
+    <div className="loading">
+      <div className="spinner"></div>
+      Loading projects...
+    </div>
+  );
   if (error) return <div className="error">Error: {error}</div>;
 
   return (

@@ -13,7 +13,7 @@ const Login: React.FC = () => {
     e.preventDefault();
     try {
       await login(email, password);
-      navigate('/dashboard'); // Redirect to dashboard or home after login
+      navigate('/dashboard'); 
     } catch (err: any) {
       setError(err.message || 'Login failed');
     }

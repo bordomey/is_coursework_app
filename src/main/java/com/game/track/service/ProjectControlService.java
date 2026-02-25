@@ -22,7 +22,6 @@ public class ProjectControlService {
     private CustomProjectRepository customProjectRepository;
 
     public KanbanDto getKanbanBoard(Integer projectId) {
-        // Validate project exists
         projectRepository.findById(projectId)
                 .orElseThrow(() -> new RuntimeException("Project not found with id: " + projectId));
 
